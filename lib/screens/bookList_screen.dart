@@ -7,11 +7,12 @@ import 'package:books_flutter/providers/api_provider.dart';
 class BookFinderPage extends StatelessWidget {
   final String title;
   final String author;
-  List<Book> booksList = [];
+  final String isbn;
 
   BookFinderPage(
     this.title,
     this.author,
+    this.isbn,
   );
 
   @override
@@ -27,7 +28,7 @@ class BookFinderPage extends StatelessWidget {
         ),
       ),
       body: FutureBuilder(
-          future: APIProvider.api.fetchBooks(title, author),
+          future: APIProvider.api.fetchBooks(title, author, isbn),
           builder: (context, AsyncSnapshot<List<Book>> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
@@ -35,7 +36,7 @@ class BookFinderPage extends StatelessWidget {
               } else {
                 return ListView(
                     children:
-                        snapshot.data.map((book) => BookTile(book, booksList)).toList());
+                        snapshot.data.map((book) => BookTile(book)).toList());
               }
             } else {
               return Center(child: CircularProgressIndicator());
@@ -47,9 +48,8 @@ class BookFinderPage extends StatelessWidget {
 
 class BookTile extends StatelessWidget {
   final Book book;
-  final List<Book> booksList;
 
-  BookTile(this.book, this.booksList);
+  BookTile(this.book);
 
   @override
   Widget build(BuildContext context) {
@@ -59,15 +59,13 @@ class BookTile extends StatelessWidget {
       ),
       title: Text(book.title),
       subtitle: Text(book.author),
-      onTap: () => _navigateToDetailsPage(book, booksList, context),
+      onTap: () => _navigateToDetailsPage(book, context),
     );
   }
 }
 
-
-
-void _navigateToDetailsPage(Book book, List<Book> bookList, BuildContext context) {
+void _navigateToDetailsPage(Book book, BuildContext context) {
   Navigator.of(context).push(MaterialPageRoute(
-    builder: (context) => BookDetailsPage(book, bookList),
+    builder: (context) => BookDetailsPage(book),
   ));
 }

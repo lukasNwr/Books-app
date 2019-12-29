@@ -7,22 +7,20 @@ import 'package:books_flutter/providers/api_provider.dart';
 
 class BookDetailsPage extends StatefulWidget {
   final Book book;
-  final List<Book> bookList;
 
-  BookDetailsPage(this.book, this.bookList);
+  BookDetailsPage(this.book);
 
   @override
-  _BookDetailPageState createState() => _BookDetailPageState(book, bookList);
+  _BookDetailPageState createState() => _BookDetailPageState(book);
 }
 
 class _BookDetailPageState extends State<BookDetailsPage> {
   final Book book;
   List<Book> booksList;
-  //SharedPreferences sp = await SharedPreferences.getInstance();
 
-  _BookDetailPageState(this.book, this.booksList);
+  _BookDetailPageState(this.book);
 
-  void _showcontent() {
+  void _showBookAddedAlert() {
     showDialog<Null>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -62,7 +60,7 @@ class _BookDetailPageState extends State<BookDetailsPage> {
             onPressed: () {
               booksList.add(book);
               DBProvider.db.createBook(book);
-              _showcontent();
+              _showBookAddedAlert();
               print('Book added');
             },
           )

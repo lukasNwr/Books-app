@@ -1,3 +1,4 @@
+import 'package:books_flutter/providers/local_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -30,7 +31,7 @@ class _BookDetailPageState extends State<BookDetailsPage> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Book ${book.title} has been added to your library!'),
+                Text(AppLocalizations.of(context).addedBookAlertMessage),
               ],
             ),
           ),
@@ -56,9 +57,8 @@ class _BookDetailPageState extends State<BookDetailsPage> {
           IconButton(
             padding: EdgeInsets.symmetric(horizontal: 20),
             icon: const Icon(Icons.add),
-            tooltip: 'Add book to your library',
+            tooltip: AppLocalizations.of(context).addButtonTooltip,
             onPressed: () {
-              booksList.add(book);
               DBProvider.db.createBook(book);
               _showBookAddedAlert();
               print('Book added');
@@ -116,7 +116,7 @@ class BookDetails extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(
-                        'Published: ' +
+                        AppLocalizations.of(context).publishedText + ': ' +
                             _book.publishedDate.replaceAll('-', '.'),
                       ),
                     ),

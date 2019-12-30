@@ -1,0 +1,51 @@
+{
+  "@@last_modified": "2019-12-30T12:56:45.161566",
+  "appTitle": "Books App",
+  "@appTitle": {
+    "description": "The application title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "bookTitleField": "Title",
+  "@bookTitleField": {
+    "description": "Book title in textField",
+    "type": "text",
+    "placeholders": {}
+  },
+  "bookAuthorField": "Author",
+  "@bookAuthorField": {
+    "description": "Book Author in textField",
+    "type": "text",
+    "placeholders": {}
+  },
+  "bookListPageTitle": "Available Books",
+  "@bookListPageTitle": {
+    "description": "Book list page title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addButtonTooltip": "Add book to your library",
+  "@addButtonTooltip": {
+    "description": "Tooltip on ADD button on book details page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "publishedText": "Published",
+  "@publishedText": {
+    "description": "Book details page published text.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addedBookAlertMessage": "Book has been added to your library!",
+  "@addedBookAlertMessage": {
+    "description": "Added book alert dialog text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "libraryPageTitle": "Library",
+  "@libraryPageTitle": {
+    "description": "Library page title text",
+    "type": "text",
+    "placeholders": {}
+  }
+}

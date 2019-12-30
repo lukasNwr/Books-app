@@ -1,3 +1,4 @@
+import 'package:books_flutter/providers/local_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:books_flutter/providers/db_provider.dart';
 import 'package:flutter/widgets.dart';
@@ -13,7 +14,7 @@ class _LibraryState extends State<Library> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Library'),
+        title: Text(AppLocalizations.of(context).libraryPageTitle),
         actions: <Widget>[
           Container(
             padding: EdgeInsets.only(right: 10.0),

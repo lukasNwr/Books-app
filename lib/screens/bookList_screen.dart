@@ -1,15 +1,16 @@
+import 'package:books_flutter/providers/local_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'bookDetails_screen.dart';
 import 'package:books_flutter/models/book_model.dart';
 import 'package:books_flutter/providers/api_provider.dart';
 
-class BookFinderPage extends StatelessWidget {
+class BookListPage extends StatelessWidget {
   final String title;
   final String author;
   final String isbn;
 
-  BookFinderPage(
+  BookListPage(
     this.title,
     this.author,
     this.isbn,
@@ -19,7 +20,7 @@ class BookFinderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Book Finder'),
+        title: Text(AppLocalizations.of(context).bookListPageTitle),
         leading: IconButton(
           icon: Icon(Icons.home),
           onPressed: () {

@@ -1,0 +1,51 @@
+{
+    "@@last_modified": "2019-12-30T12:56:45.161566",
+    "appTitle": "Knižôčky",
+    "@appTitle": {
+      "description": "The application title",
+      "type": "text",
+      "placeholders": {}
+    },
+    "bookTitleField": "Názov",
+    "@bookTitleField": {
+      "description": "Book title in textField",
+      "type": "text",
+      "placeholders": {}
+    },
+    "bookAuthorField": "Autor",
+    "@bookAuthorField": {
+      "description": "Book Author in textField",
+      "type": "text",
+      "placeholders": {}
+    },
+    "bookListPageTitle": "Nájdené knihy",
+    "@bookListPageTitle": {
+      "description": "Book list page title",
+      "type": "text",
+      "placeholders": {}
+    },
+    "addButtonTooltip": "Pridať knihu do knižnice",
+    "@addButtonTooltip": {
+      "description": "Tooltip on ADD button on book details page",
+      "type": "text",
+      "placeholders": {}
+    },
+    "publishedText": "Vydané",
+    "@publishedText": {
+      "description": "Book details page published text.",
+      "type": "text",
+      "placeholders": {}
+    },
+    "addedBookAlertMessage": "Kniha bola pridaná do knižnice!",
+    "@addedBookAlertMessage": {
+      "description": "Added book alert dialog text",
+      "type": "text",
+      "placeholders": {}
+    },
+    "libraryPageTitle": "Knižnica",
+    "@libraryPageTitle": {
+      "description": "Library page title text",
+      "type": "text",
+      "placeholders": {}
+    }
+  }

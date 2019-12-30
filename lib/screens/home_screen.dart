@@ -1,3 +1,4 @@
+import 'package:books_flutter/providers/local_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -43,7 +44,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Books App'),
+          title: Text(AppLocalizations.of(context).appTitle),
           actions: <Widget>[
             Container(
               padding: EdgeInsets.only(right: 10.0),
@@ -62,7 +63,7 @@ class _HomeState extends State<Home> {
                     _scanBarcode();
                     print(isbn);
                     if (isbn != 'Unknown') {
-                      _navigateToBookFinderPage(null, null, isbn, context);
+                      _navigateToBookListPage(null, null, isbn, context);
                     }
                   }),
             )
@@ -78,7 +79,7 @@ class _HomeState extends State<Home> {
                       children: <Widget>[
                         TextFormField(
                           decoration: InputDecoration(
-                            labelText: 'Title',
+                            labelText: AppLocalizations.of(context).bookTitleField,
                             border: OutlineInputBorder(),
                           ),
                           validator: (value) {
@@ -91,7 +92,7 @@ class _HomeState extends State<Home> {
                         SizedBox(height: 20),
                         TextFormField(
                           decoration: InputDecoration(
-                            labelText: 'Author',
+                            labelText: AppLocalizations.of(context).bookAuthorField,
                             border: OutlineInputBorder(),
                           ),
                           validator: (value) {
@@ -111,7 +112,7 @@ class _HomeState extends State<Home> {
                               if (form.validate()) {
                                 form.save();
                                 _book.save();
-                                _navigateToBookFinderPage(
+                                _navigateToBookListPage(
                                     _book.title, _book.author, isbn, context);
                               }
                             },
@@ -125,10 +126,10 @@ class _HomeState extends State<Home> {
   }
 }
 
-void _navigateToBookFinderPage(
+void _navigateToBookListPage(
     String title, String author, String isbn, BuildContext context) {
   Navigator.of(context).push(MaterialPageRoute(
-    builder: (context) => BookFinderPage(title, author, isbn),
+    builder: (context) => BookListPage(title, author, isbn),
   ));
 }
 

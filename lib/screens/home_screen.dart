@@ -18,7 +18,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final _book = Book();
   final _formKey = GlobalKey<FormState>();
-  String isbn;
+  String isbn = 'Unknown';
 
   Future _scanBarcode() async {
     String _scanResult;
@@ -27,6 +27,7 @@ class _HomeState extends State<Home> {
       _scanResult = await BarcodeScanner.scan();
       setState(() {
         isbn = _scanResult;
+        print(isbn);
       });
       print(_scanResult);
     } on PlatformException catch (ex) {

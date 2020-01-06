@@ -28,8 +28,9 @@ class Book {
 
   factory Book.booksFromJson(Map<String, dynamic> json) {
     return Book(
-      title:
-          json == null ? 'Title not available!' : json['volumeInfo']['title'],
+      title: json['volumeInfo']['title'] == null
+          ? 'Title not available!'
+          : json['volumeInfo']['title'],
       author: json['volumeInfo']['authors'] == null
           ? 'Author not available!'
           : (json['volumeInfo']['authors'] as List).join(', '),

@@ -28,6 +28,8 @@ class APIProvider {
 
     url += '&maxResults=$maxResults&key=$apiKey';
 
+    print('url: ' + url);
+
     final response = await http.get(url);
 
     if (response.statusCode == 200) {

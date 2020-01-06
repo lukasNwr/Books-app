@@ -27,25 +27,58 @@ class Book {
   });
 
   factory Book.booksFromJson(Map<String, dynamic> json) {
-    return Book(
-      title: json['volumeInfo']['title'],
-      author: (json['volumeInfo']['authors'] as List).join(', '),
-      thumbnailUrl: json['volumeInfo']['imageLinks']['smallThumbnail'],
-      id: json['id'],
-    );
+    if (json['volumeInfo']['imageLinks'] == null) {
+      return Book(
+        title: json['volumeInfo']['title'],
+        author: (json['volumeInfo']['authors'] as List).join(', '),
+        thumbnailUrl: 'No thumbnail available!',
+        publishedDate: json['volumeInfo']['publishedDate'],
+        id: json['id'],
+      );
+    } else
+      return Book(
+        title: json['volumeInfo']['title'],
+        author: (json['volumeInfo']['authors'] as List).join(', '),
+        thumbnailUrl: json['volumeInfo']['imageLinks']['smallThumbnail'],
+        publishedDate: json['volumeInfo']['publishedDate'],
+        id: json['id'],
+      );
   }
 
   factory Book.fromJson(Map<String, dynamic> json) {
-    return Book(
-      title: json['volumeInfo']['title'],
-      author: (json['volumeInfo']['authors'] as List).join(', '),
-      publisher: json['volumeInfo']['publisher'],
-      publishedDate: json['volumeInfo']['publishedDate'],
-      description: json['volumeInfo']['description'],
-      pageCount: json['volumeInfo']['pageCount'],
-      rating: json['volumeInfo']['averageRating'],
-      thumbnailUrl: json['volumeInfo']['imageLinks']['smallThumbnail'],
-    );
+    if (json['volumeInfo']['description'] == null) {
+      return Book(
+        title: json['volumeInfo']['title'],
+        author: (json['volumeInfo']['authors'] as List).join(', '),
+        publisher: json['volumeInfo']['publisher'],
+        publishedDate: json['volumeInfo']['publishedDate'],
+        description: 'No description available!',
+        pageCount: json['volumeInfo']['pageCount'],
+        rating: json['volumeInfo']['averageRating'],
+        thumbnailUrl: json['volumeInfo']['imageLinks']['smallThumbnail'],
+      );
+    } else if (json['volumeInfo']['imageLinks'] == null) {
+      return Book(
+        title: json['volumeInfo']['title'],
+        author: (json['volumeInfo']['authors'] as List).join(', '),
+        publisher: json['volumeInfo']['publisher'],
+        publishedDate: json['volumeInfo']['publishedDate'],
+        description: json['volumeInfo']['description'],
+        pageCount: json['volumeInfo']['pageCount'],
+        rating: json['volumeInfo']['averageRating'],
+        thumbnailUrl: 'No thumbnail available!',
+      );
+    } else
+      return Book(
+        title: json['volumeInfo']['title'],
+        author: (json['volumeInfo']['authors'] as List).join(', '),
+        publisher: json['volumeInfo']['publisher'],
+        publishedDate: json['volumeInfo']['publishedDate'],
+        description: json['volumeInfo']['description'],
+        pageCount: json['volumeInfo']['pageCount'],
+        rating: json['volumeInfo']['averageRating'],
+        thumbnailUrl: json['volumeInfo']['imageLinks']['smallThumbnail'],
+      );
   }
 
   factory Book.fromDatabaseJson(Map<String, dynamic> json) {

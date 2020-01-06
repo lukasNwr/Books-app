@@ -52,23 +52,44 @@ class _BookDetailPageState extends State<BookDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(book.title),
-        actions: <Widget>[
-          IconButton(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            icon: const Icon(Icons.add),
-            tooltip: AppLocalizations.of(context).addButtonTooltip,
-            onPressed: () {
-              DBProvider.db.createBook(book);
-              _showBookAddedAlert();
-              print('Book added');
-            },
-          )
-        ],
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+            size: 30.0,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        backgroundColor: Colors.transparent,
+        title: Text(
+          book.title,
+          style: TextStyle(color: Colors.black, fontSize: 25.0),
+        ),
+        centerTitle: true,
+        elevation: 0.0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: BookDetails(book),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14.0),
+            side: BorderSide(color: Colors.grey[700], width: 2.5)),
+        icon: Icon(
+          Icons.add_circle,
+          color: Colors.grey[700],
+        ),
+        label: Text(
+          'Add to library',
+          style: TextStyle(color: Colors.grey[800]),
+        ),
+        onPressed: () async {
+          await DBProvider.db.createBook(book);
+          _showBookAddedAlert();
+        },
       ),
     );
   }
@@ -89,43 +110,66 @@ class BookDetails extends StatelessWidget {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else {
               Book _book = snapshot.data;
-              return SingleChildScrollView(
-                  child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Image.network(_book.thumbnailUrl),
-                    SizedBox(height: 10.0),
-                    Text(
-                      _book.title,
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        _book.author,
+              return SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 60.0),
+                  child: SingleChildScrollView(
+                    child: Container(
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 20.0),
+                            Container(
+                              decoration: BoxDecoration(boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    blurRadius: 20.0,
+                                    spreadRadius: 2.0)
+                              ]),
+                              child: ClipRRect(
+                                child: Image.network(_book.thumbnailUrl),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            SizedBox(height: 20.0),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Text(
+                                _book.author,
+                                style: TextStyle(
+                                    color: Colors.grey[600], fontSize: 20.0),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Text(
+                                _book.publisher,
+                                style: TextStyle(
+                                    color: Colors.grey[500], fontSize: 15.0),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Text(
+                                AppLocalizations.of(context).publishedText +
+                                    ': ' +
+                                    _book.publishedDate.replaceAll('-', '.'),
+                                style: TextStyle(
+                                    color: Colors.grey[500], fontSize: 15.0),
+                              ),
+                            ),
+                            Html(
+                              padding: const EdgeInsets.only(top: 10),
+                              data: _book.description,
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        _book.publisher,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        AppLocalizations.of(context).publishedText + ': ' +
-                            _book.publishedDate.replaceAll('-', '.'),
-                      ),
-                    ),
-                    Html(
-                        padding: const EdgeInsets.only(top: 10),
-                        data: _book.description)
-                  ],
+                  ),
                 ),
-              ));
+              );
             }
           } else {
             return Center(child: CircularProgressIndicator());

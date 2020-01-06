@@ -29,22 +29,21 @@ class DBProvider {
 
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
-          await db.execute(
-              'CREATE TABLE Book('
-              'id INTEGER PRIMARY KEY,'
-              'title TEXT,'
-              'author TEXT,'
-              'publisher TEXT,'
-              'publishedDate TEXT,'
-              'description TEXT,'
-              'pageCount INTEGER,'
-              'rating REAL,'
-              'thumbnailUrl TEXT'
-              ')');
-        });
+      await db.execute('CREATE TABLE Book('
+          'id INTEGER PRIMARY KEY,'
+          'title TEXT,'
+          'author TEXT,'
+          'publisher TEXT,'
+          'publishedDate TEXT,'
+          'description TEXT,'
+          'pageCount INTEGER,'
+          'rating REAL,'
+          'thumbnailUrl TEXT'
+          ')');
+    });
   }
 
-  // Insert employee on database
+  // Insert book on database
   createBook(Book newBook) async {
     //await deleteAllBooks();
     final db = await database;
@@ -63,15 +62,17 @@ class DBProvider {
 
   //Delete one Book
   Future<int> delete(String title) async {
-    return await _database.delete('Book', where: 'title = ?', whereArgs: [title]);
+    return await _database
+        .delete('Book', where: 'title = ?', whereArgs: [title]);
   }
 
+  //Get all books from database
   Future<List<Book>> getAllBooks() async {
     final db = await database;
     final res = await db.rawQuery("SELECT * FROM Book");
 
     List<Book> list =
-    res.isNotEmpty ? res.map((c) => Book.fromDatabaseJson(c)).toList() : [];
+        res.isNotEmpty ? res.map((c) => Book.fromDatabaseJson(c)).toList() : [];
 
     return list;
   }

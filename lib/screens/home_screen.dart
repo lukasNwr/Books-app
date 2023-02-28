@@ -1,13 +1,12 @@
 import 'package:books_flutter/app.dart';
 import 'package:books_flutter/providers/local_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:books_flutter/screens/bookList_screen.dart';
 import 'package:books_flutter/screens/library_screen.dart';
 import 'package:books_flutter/models/book_model.dart';
-import 'package:barcode_scan/barcode_scan.dart';
+import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
@@ -18,20 +17,26 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final _book = Book();
   final _formKey = GlobalKey<FormState>();
-  String isbn = 'Unknown';
+  String isbn = 'default';
 
   Future _scanBarcode() async {
-    String _scanResult;
+    var _scanResult;
+    final _flashOnController = TextEditingController(text: 'Flash on');
+    final _flashOffController = TextEditingController(text: 'Flash off');
+    final _cancelController = TextEditingController(text: 'Cancel');
 
     try {
-      _scanResult = await BarcodeScanner.scan();
+      _scanResult = await BarcodeScanner.scan(
+          options: ScanOptions(strings: {
+        'cancel': _cancelController.text,
+        'flash_on': _flashOnController.text,
+        'flash_off': _flashOffController.text,
+      }));
       setState(() {
-        isbn = _scanResult;
-        print(isbn);
+        isbn = _scanResult.rawContent;
       });
-      print(_scanResult);
     } on PlatformException catch (ex) {
-      if (ex.code == BarcodeScanner.CameraAccessDenied) {
+      if (ex.code == BarcodeScanner.cameraAccessDenied) {
         print('Camera perimission denied!');
       } else {
         print('Unknown error: $ex');
@@ -45,7 +50,16 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle selectedStyle = TextStyle(color: Theme.of(context).accentColor);
+    TextStyle selectedStyle =
+        TextStyle(color: Theme.of(context).colorScheme.secondary);
+
+    final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
+      padding: EdgeInsets.all(15.0),
+      foregroundColor: Colors.black,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+    );
 
     return Scaffold(
         drawer: Drawer(
@@ -141,10 +155,10 @@ class _HomeState extends State<Home> {
                           icon: Icon(Icons.camera_alt),
                           iconSize: 30,
                           color: Colors.white,
-                          onPressed: () {
-                            _scanBarcode();
+                          onPressed: () async {
+                            await _scanBarcode();
                             print(isbn);
-                            if (isbn != 'Unknown') {
+                            if (isbn != 'default' && isbn != '') {
                               _navigateToBookListPage(
                                   null, null, isbn, context);
                             }
@@ -211,16 +225,12 @@ class _HomeState extends State<Home> {
                                 SizedBox(height: 20),
                                 Container(
                                   padding: const EdgeInsets.all(15.0),
-                                  child: RaisedButton(
-                                    elevation: 0.0,
-                                    padding: EdgeInsets.all(15.0),
-                                    textColor: Colors.black,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
+                                  child: ElevatedButton(
+                                    style: buttonStyle,
                                     onPressed: () {
                                       final form = _formKey.currentState;
                                       if (form.validate()) {
+                                        print("validate true");
                                         form.save();
                                         _book.save();
                                         _navigateToBookListPage(_book.title,

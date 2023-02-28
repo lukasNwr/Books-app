@@ -94,11 +94,15 @@ class BookTile extends StatelessWidget {
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(8.0),
                           topLeft: Radius.circular(8.0)),
-                      child: Image(
+                      child: FadeInImage.assetNetwork(
+                        placeholder: "images/no-image-placeholder.png",
                         fit: BoxFit.contain,
-                        image: NetworkImage(
-                          book.thumbnailUrl,
-                        ),
+                        image: book.thumbnailUrl,
+                        imageErrorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                            'images/no-image-placeholder.png',
+                          );
+                        },
                       ),
                     ),
                   ),

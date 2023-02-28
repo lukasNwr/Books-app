@@ -36,7 +36,7 @@ class _BookDetailPageState extends State<BookDetailsPage> {
             ),
           ),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text('Ok'),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -128,7 +128,20 @@ class BookDetails extends StatelessWidget {
                                     spreadRadius: 2.0)
                               ]),
                               child: ClipRRect(
-                                child: Image.network(_book.thumbnailUrl),
+                                child: FadeInImage.assetNetwork(
+                                  placeholder:
+                                      "images/no-image-placeholder.png",
+                                  fit: BoxFit.contain,
+                                  image: book.thumbnailUrl,
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
+                                    return Image.asset(
+                                      'images/no-image-placeholder.png',
+                                      height: 150,
+                                      width: 150,
+                                    );
+                                  },
+                                ),
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                             ),

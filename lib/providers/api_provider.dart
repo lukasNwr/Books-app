@@ -6,7 +6,7 @@ import 'package:books_flutter/models/book_model.dart';
 
 class APIProvider {
   static final APIProvider api = APIProvider._();
-  final String apiKey = 'AIzaSyAm4IX8slQCnJFdmMOIpo9LVJe8mS59Uv8';
+  final String apiKey = 'AIzaSyCkfQk3eFNcHWYP28EPdEgvE85JBKVqKLE';
   final int maxResults = 10; //number between 10(default) and 40;
 
   APIProvider._();
@@ -14,7 +14,7 @@ class APIProvider {
   Future<List<Book>> fetchBooks(
       String title, String author, String isbn) async {
     String url = 'https://www.googleapis.com/books/v1/volumes?';
-    if (isbn != 'Unknown' && isbn != null) {
+    if (isbn != 'default' && isbn != null && isbn != '') {
       url += 'q=isbn:$isbn';
     } else if (title == null && author == null) {
       print('Error fatching, no author and title provided');
@@ -30,7 +30,7 @@ class APIProvider {
 
     print('url: ' + url);
 
-    final response = await http.get(url);
+    final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
       return _parseBooksJson(response.body);
@@ -51,7 +51,7 @@ class APIProvider {
   Future<Book> fetchBook(String id) async {
     String url = 'https://www.googleapis.com/books/v1/volumes/$id?key=$apiKey';
 
-    final response = await http.get(url);
+    final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       return Book.fromJson(json.decode(response.body));
     } else {

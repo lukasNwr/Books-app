@@ -12,7 +12,7 @@ class Book {
   String publishedDate;
   String description;
   int pageCount;
-  double rating;
+  var rating;
 
   Book({
     this.title,
@@ -34,9 +34,11 @@ class Book {
       author: json['volumeInfo']['authors'] == null
           ? 'Author not available!'
           : (json['volumeInfo']['authors'] as List).join(', '),
-      thumbnailUrl: json['volumeInfo']['imageLinks']['smallThumbnail'] == null
+      thumbnailUrl: json['volumeInfo']['imageLinks'] == null
           ? 'Thumbnail not available!'
-          : json['volumeInfo']['imageLinks']['smallThumbnail'],
+          : json['volumeInfo']['imageLinks']['smallThumbnail'] == null
+              ? "Thumbnail not available!"
+              : json['volumeInfo']['imageLinks']['smallThumbnail'],
       publishedDate: json['volumeInfo']['publishedDate'] == null
           ? 'pubDate not available!'
           : json['volumeInfo']['publishedDate'],
@@ -67,9 +69,11 @@ class Book {
       rating: json['volumeInfo']['averageRating'] == null
           ? 'rating not avaiable'
           : json['volumeInfo']['averageRating'],
-      thumbnailUrl: json['volumeInfo']['imageLinks']['smallThumbnail'] == null
-          ? 'thumbnail not available'
-          : json['volumeInfo']['imageLinks']['smallThumbnail'],
+      thumbnailUrl: json['volumeInfo']['imageLinks'] == null
+          ? 'Thumbnail not avaiable'
+          : json['volumeInfo']['imageLinks']['smallThumbnail'] == null
+              ? 'thumbnail not available'
+              : json['volumeInfo']['imageLinks']['smallThumbnail'],
     );
   }
 

@@ -3,7 +3,6 @@ import 'package:books_flutter/providers/local_provider.dart';
 import 'package:books_flutter/screens/libraryBookDetails_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:books_flutter/providers/db_provider.dart';
-import 'package:flutter/widgets.dart';
 
 class Library extends StatefulWidget {
   _LibraryState createState() => _LibraryState();
@@ -95,7 +94,7 @@ class _LibraryState extends State<Library> {
                             DBProvider.db.delete(snapshot.data[index].title);
                           });
                           //To show a snackbar with the UNDO button
-                          Scaffold.of(context).showSnackBar(SnackBar(
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text("Item deleted"),
                               action: SnackBarAction(
                                   label: "UNDO",
